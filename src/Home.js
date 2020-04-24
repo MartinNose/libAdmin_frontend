@@ -37,7 +37,7 @@ class Home extends Component {
       >
         {
           this.state.bk_count
-        } 本书在藏，
+        } 本书在藏,
         {
           this.state.cd_count  
         } 位用户使用,
