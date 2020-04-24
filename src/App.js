@@ -12,7 +12,7 @@ import {
 
 
 import Home from './Home'
-import Search from '.Search'
+import Search from './Search'
 // import Account from './Account'
 // import BookManage from './BookManage'
 // import CardManage from './CardManage'
