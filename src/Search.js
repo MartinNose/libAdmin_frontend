@@ -27,6 +27,8 @@ class Search extends Component {
       key: 'title',
       name: 'Title',
       fieldName: 'title',
+      minWidth: 100,
+      maxWidth:300,
       onColumnClick: this.onColumnClick.bind(this),
     }, {
       key: 'category',
@@ -38,32 +40,38 @@ class Search extends Component {
       key: 'author',
       name: 'Author',
       fieldName: 'author',
+      maxWidth: 300,
       onColumnClick: this.onColumnClick.bind(this),
     }, {
       key: 'year',
       name: 'year',
       fieldName: 'year',
+      maxWidth: 200,
       onColumnClick: this.onColumnClick.bind(this),
     }, {
       key: 'price',
       name: 'Price',
       fieldName: 'price',
+      maxWidth: 20,
       onColumnClick: this.onColumnClick.bind(this),
     }, {
       key: 'total',
       name: 'Total',
       fieldName: 'total',
+      maxWidth: 20,
       onColumnClick: this.onColumnClick.bind(this),
     }, {
       key: 'stock',
       name: 'Stock',
       fieldName: 'stock',
+      maxWidth: 20,
       onColumnClick: this.onColumnClick.bind(this),
     }, {
       key: 'press',
         name: 'Press',
         fieldName: 'press',
-        minWidth: 500,
+        minWidth: 200,
+        maxWidth: 300,
         onColumnClick: this.onColumnClick.bind(this),
     }]
 
@@ -153,12 +161,13 @@ class Search extends Component {
       <div>
           <div style={{display:"flex", flexDirection: "row", alignItems: 'flex-end' }}>
             <Stack horizontal tokens={{ childrenGap: 10 }}  styles={{width: 100}}>
+              <span> </span>
               <TextField label="bno" onChange={this.onInputChange.bind(this)}/>
               <TextField label="category" onChange={this.onInputChange.bind(this)}/>
               <TextField label="title" onChange={this.onInputChange.bind(this)}/>
               <TextField label="press" onChange={this.onInputChange.bind(this)}/>
-              {/* <TextField label="year" ariaLabel="Required without visible label" onChange={this.onInputChange.bind(this)}/> */}
-              //TODO dates and price
+              <TextField label="start" onChange={this.onInputChange.bind(this)}/>
+              <TextField label="end" onChange={this.onInputChange.bind(this)}/>
               <TextField label="low" onChange={this.onInputChange.bind(this)}/>
               <TextField label="high" onChange={this.onInputChange.bind(this)}/>
               <Stack.Item align="end"><PrimaryButton text="Query" onClick={this.onQueryClick.bind(this)}/></Stack.Item>
