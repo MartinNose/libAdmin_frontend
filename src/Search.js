@@ -4,13 +4,11 @@ import {
   DetailsListLayoutMode,
   SelectionMode
 } from 'office-ui-fabric-react/lib/DetailsList'
-import { Stack, IStackProps, IStackStyles } from 'office-ui-fabric-react/lib/Stack';
-import { TextField, MaskedTextField } from 'office-ui-fabric-react/lib/TextField';
+import { Stack } from 'office-ui-fabric-react/lib/Stack';
+import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { PrimaryButton } from 'office-ui-fabric-react';
-
 const env = require('./.env.js')
 const url = env.url;
-const stackStyles = { root: { width: 650 } };
 
 class Search extends Component {
   constructor() {

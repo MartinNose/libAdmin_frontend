@@ -8,8 +8,6 @@ import { Stack } from 'office-ui-fabric-react/lib/Stack';
 import { TextField} from 'office-ui-fabric-react/lib/TextField';
 import { PrimaryButton } from 'office-ui-fabric-react';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
-
-
 const env = require('./.env.js')
 const url = env.url;
 
@@ -215,7 +213,6 @@ class Account extends Component {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
-            // 'Content-Type': 'application/x-www-form-urlencoded',
           },
           body: JSON.stringify({cno: this.state.cno, bno: this.state.bno})
       })

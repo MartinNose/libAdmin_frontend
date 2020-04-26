@@ -8,7 +8,6 @@ import {
   HashRouter as Router,
   Route,
 } from 'react-router-dom'
-// import './main.css'
 import { initializeIcons } from 'office-ui-fabric-react/lib/Icons';
 
 import Home from './Home'

@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 const env = require('./.env.js')
 const url = env.url;
 
-
-
 class Home extends Component {
   constructor() {
     super()
