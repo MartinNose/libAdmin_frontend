@@ -172,7 +172,7 @@ class CardManage extends Component {
               <Stack.Item align="end">
                 <MessageBar 
                     messageBarType={MessageBarType[this.state.typeDL]}
-                    isMultiline={false}
+                    isMultiline={true}
                     dismissButtonAriaLabel="Close"
                 >{this.state.messageDL}</MessageBar>
               </Stack.Item>

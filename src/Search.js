@@ -153,6 +153,8 @@ class Search extends Component {
       this.setState({
         items: items,
       })
+    } else {
+      alert(items.err)
     }
   }
 
@@ -162,7 +164,6 @@ class Search extends Component {
           <div style={{display:"flex", flexDirection: "row", alignItems: 'flex-end' }}>
             <Stack horizontal tokens={{ childrenGap: 10 }}  styles={{width: 100}}>
               <span> </span>
-              <TextField label="bno" onChange={this.onInputChange.bind(this)}/>
               <TextField label="category" onChange={this.onInputChange.bind(this)}/>
               <TextField label="title" onChange={this.onInputChange.bind(this)}/>
               <TextField label="press" onChange={this.onInputChange.bind(this)}/>
