@@ -25,88 +25,41 @@ class Account extends Component {
       maxWidth: 200,
       onColumnClick: this.onColumnClick.bind(this),
     } ,{
-      key: 'title',
-      name: 'Title',
-      fieldName: 'title',
+      key: 'cno',
+      name: 'cno',
+      fieldName: 'cno',
       minWidth: 100,
       maxWidth:300,
       onColumnClick: this.onColumnClick.bind(this),
     }, {
-      key: 'category',
-      name: 'category',
-      fieldName: 'category',
+      key: 'borrow_date',
+      name: 'borrow_date',
+      fieldName: 'borrow_date',
       maxWidth: 200,
       onColumnClick: this.onColumnClick.bind(this),
     }, {
-      key: 'author',
-      name: 'Author',
-      fieldName: 'author',
+      key: 'return_date',
+      name: 'return_date',
+      fieldName: 'return_date',
       maxWidth: 300,
       onColumnClick: this.onColumnClick.bind(this),
-    }, {
-      key: 'year',
-      name: 'year',
-      fieldName: 'year',
-      maxWidth: 200,
-      onColumnClick: this.onColumnClick.bind(this),
-    }, {
-      key: 'price',
-      name: 'Price',
-      fieldName: 'price',
-      maxWidth: 20,
-      onColumnClick: this.onColumnClick.bind(this),
-    }, {
-      key: 'total',
-      name: 'Total',
-      fieldName: 'total',
-      maxWidth: 20,
-      onColumnClick: this.onColumnClick.bind(this),
-    }, {
-      key: 'stock',
-      name: 'Stock',
-      fieldName: 'stock',
-      maxWidth: 20,
-      onColumnClick: this.onColumnClick.bind(this),
-    }, {
-      key: 'press',
-        name: 'Press',
-        fieldName: 'press',
-        minWidth: 200,
-        maxWidth: 300,
-        onColumnClick: this.onColumnClick.bind(this),
     }]
 
     this.state = {
-      items: [{
-          bno:"123345",
-          category:"cs",
-          title:"DB",
-          press:"ZJU",
-          year:"2019-10-02",
-          author:"Zhang San",
-          price:null,
-          total:10,
-          stock:10}],
+      items: [],
       card: {},
       cno: "",
-      message:"Please input your card number"
+      message:"Please input your card number",
+      messageBR: ""
     }
   }
   async componentWillMount() {
-    await this.componentWillReceiveProps()
+    // await this.componentWillReceiveProps()
   }
   async componentWillReceiveProps() {
-    const raw = await fetch(url + '/api/search', {
-      method: 'POST', // *GET, POST, PUT, DELETE, etc.
-      mode: 'cors', // no-cors, *cors, same-origin
-      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: 'same-origin', // include, *same-origin, omit
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      redirect: 'follow', // manual, *follow, error
-      referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-      body: this.props.query
+    const raw = await fetch(url + '/api/curBk', {
+        method: "POST",
+        body: JSON.stringify({cno: this.state.cno})
     })
     const items = await raw.json()
     if (!items.err) {
@@ -134,14 +87,28 @@ class Account extends Component {
     return selected
   }
 
+ async fetchcurbk() {
+    const curbk = await fetch(url + '/api/curBk', {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({cno: this.state.cno})
+    })
+    const items = await curbk.json()
+    console.log(items)
+    if (!items.err) {
+      this.setState({
+        items: items
+      })
+    }
+ }
  async onLogin() {
     console.log(this.state.cno)
-    console.log(url)
     const raw = await fetch(url + '/api/cardin', {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         headers: {
             'Content-Type': 'application/json'
-            // 'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: JSON.stringify({cno: this.state.cno})
     })
@@ -159,6 +126,7 @@ class Account extends Component {
             message: "Invalid Card Number"
         })
     }
+    this.fetchcurbk()
   }
 
   async onInputChange(event, text) {
@@ -203,22 +171,36 @@ class Account extends Component {
                 </p>}
               </Stack.Item>
             </Stack>
-            
-          </div>
+        </div>
         <div>
+            {this.state.type === "success"  && this.state.items.length !== 0 &&
+            <DetailsList
+                items={this.state.items}
+                columns={this.columns}
+                setKey="set"
+                layoutMode={DetailsListLayoutMode.justified}        
+                selectionMode={SelectionMode.none}/>}
+        </div>
+        <div>
+            { this.state.type === "success" && this.state.items.length === 0 && 
+            <p>&nbsp;No records yet</p>}
+        </div>
+        <div style={{display:"flex", flexDirection: "row", alignItems: 'flex-end', marginLeft:10}}>
             {this.state.type === "success" && 
                 <Stack horizontal tokens={{ childrenGap: 10 }}  styles={{width: 100}}>
-                &nbsp;
-                <TextField label="bno" onChange={this.onBnoChange.bind(this)}/>
+                <TextField label="wantedBno" onChange={this.onBnoChange.bind(this)}/>
                 <Stack.Item align="end">
-                    <PrimaryButton text="Login" onClick={this.onLogin.bind(this)}/>
+                    <PrimaryButton text="Borrow" onClick={this.onBorrow.bind(this)}/>
                 </Stack.Item>
                 <Stack.Item align="end">
-                    <MessageBar 
-                        messageBarType={MessageBarType[this.state.type]}
+                    <PrimaryButton text="Return" onClick={this.onReturn.bind(this)}/>
+                </Stack.Item>
+                <Stack.Item align="end">
+                    <MessageBar
+                        messageBarType={MessageBarType[this.state.typeBR]}
                         isMultiline={false}
                         dismissButtonAriaLabel="Close"
-                    >{this.state.message}</MessageBar>
+                    >{this.state.messageBR}</MessageBar>
                 </Stack.Item>
                 </Stack>
             }
@@ -227,6 +209,55 @@ class Account extends Component {
       </div>
     )
   } 
+
+  async onBorrow() {
+      const raw = await fetch(url + '/api/borrow', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: JSON.stringify({cno: this.state.cno, bno: this.state.bno})
+      })
+      const msg = await raw.json()
+      console.log(msg)
+      if (!msg.err) {
+        this.setState({
+            messageBR: "Borrow succeeded",
+            typeBR: "success"
+        })
+      } else {
+        this.setState({
+            messageBR: msg.err,
+            typeBR: "error"
+        })
+      }
+      this.fetchcurbk()
+  }
+
+  async onReturn() {
+    const raw = await fetch(url + '/api/return', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({cno: this.state.cno, bno: this.state.bno})
+    })
+    const msg = await raw.json()
+    console.log(msg)
+    if (!msg.err) {
+      this.setState({
+          messageBR: "return succeeded",
+          typeBR: "success"
+      })
+    } else {
+      this.setState({
+          messageBR: msg.err,
+          typeBR: "error"
+      })
+    }
+    this.fetchcurbk()
+  }
 }
 
 export default Account

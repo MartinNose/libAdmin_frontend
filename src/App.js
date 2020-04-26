@@ -15,7 +15,7 @@ import Home from './Home'
 import Search from './Search'
 import Account from './Account'
 import BookManage from './BookManage'
-// import CardManage from './CardManage'
+import CardManage from './CardManage'
 
 initializeIcons();
 const styles = {
@@ -106,7 +106,7 @@ class App extends Component {
               <Route path="/search" component={Search} />
               <Route path="/account" component={Account} /> 
               <Route path="/bookmanage" component={BookManage} />
-              {/* <Route path="/cardmanage" component={CardManage} /> */}
+              <Route path="/cardmanage" component={CardManage} />
             </div>
           </div>
         </Fabric>
