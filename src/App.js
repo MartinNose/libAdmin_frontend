@@ -13,7 +13,7 @@ import { initializeIcons } from 'office-ui-fabric-react/lib/Icons';
 
 import Home from './Home'
 import Search from './Search'
-// import Account from './Account'
+import Account from './Account'
 import BookManage from './BookManage'
 // import CardManage from './CardManage'
 
@@ -104,7 +104,7 @@ class App extends Component {
             <div className={this.props.classes.Content}>
               <Route exact path="/" component={Home} />
               <Route path="/search" component={Search} />
-              {/* <Route path="/account" component={Account} />  */}
+              <Route path="/account" component={Account} /> 
               <Route path="/bookmanage" component={BookManage} />
               {/* <Route path="/cardmanage" component={CardManage} /> */}
             </div>

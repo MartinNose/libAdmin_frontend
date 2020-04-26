@@ -1,16 +1,10 @@
 import React, { Component } from 'react'
-import {
-  DetailsList,
-  DetailsListLayoutMode,
-  SelectionMode
-} from 'office-ui-fabric-react/lib/DetailsList'
 import { Stack, IStackProps, IStackStyles } from 'office-ui-fabric-react/lib/Stack';
 import { TextField, MaskedTextField } from 'office-ui-fabric-react/lib/TextField';
-import { PrimaryButton,MessageBar, Link, MessageBarButton, MessageBarType } from 'office-ui-fabric-react';
+import { PrimaryButton,MessageBar, Link, MessageBarType } from 'office-ui-fabric-react';
 
 const env = require('./.env.js')
 const url = env.url;
-const stackStyles = { root: { width: 650 } };
 
 class Book {
     constructor(str) {
