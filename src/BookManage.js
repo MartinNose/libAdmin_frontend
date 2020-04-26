@@ -39,7 +39,9 @@ class BookManage extends Component {
         stock: ""
       },
       books: [],
-      message: "Paste files to import"
+      message: "Paste files to import",
+      newbook: {},
+      Umessage:"Input bno to updates"
     }
   }
  
@@ -153,12 +155,10 @@ class BookManage extends Component {
             </Stack>
           </div>
           <Stack horizontal tokens={{ childrenGap: 10 }}>
-            <Stack tokens={{ childrenGap: 10 }} style={{width: 700}}>
-                <TextField label="Batch Import" multiline autoAdjustHeight width="800" onChange={this.onBatchChange.bind(this)}/>
-                <Stack.Item align="end">
-                    <PrimaryButton text="Insert" onClick={this.onBatchClick.bind(this)}/>
-                </Stack.Item>
+            <Stack tokens={{ childrenGap: 10 }} style={{width: 1000}}>
+                <TextField label="Batch Import" multiline rows={9} autoAdjustHeight width="800" onChange={this.onBatchChange.bind(this)}/>
             </Stack>
+            <Stack tokens={{ childrenGap: 10 }} >
             <Stack.Item align="start">
                 <p style={{fontSize: 30}}> </p>
                 <MessageBar
@@ -172,9 +172,91 @@ class BookManage extends Component {
                     </Link>
                 </MessageBar>
             </Stack.Item>
+            <Stack.Item align="start">
+                    <PrimaryButton text="Insert" onClick={this.onBatchClick.bind(this)}/>
+            </Stack.Item>
+            </Stack>
           </Stack>
+          <div style={{display:"flex", flexDirection: "column", alignItems: 'flex-stretch' }}>
+            <Stack horizontal tokens={{ childrenGap: 10 }}  styles={{width: 100}}>
+              <TextField label="bno" errorMessage={this.state.msg} onChange={this.onUpdateChange.bind(this)}/>
+              <TextField label="category" onChange={this.onUpdateChange.bind(this)}/>
+              <TextField label="title" onChange={this.onUpdateChange.bind(this)}/>
+              <TextField label="press" onChange={this.onUpdateChange.bind(this)}/>
+            </Stack>
+            <Stack horizontal tokens={{ childrenGap: 10 }}  styles={{width: 100}}>
+              <TextField label="year" onChange={this.onUpdateChange.bind(this)}/>
+              <TextField label="author" onChange={this.onUpdateChange.bind(this)}/>
+              <TextField label="price" onChange={this.onUpdateChange.bind(this)}/>
+              <Stack.Item align="end"><PrimaryButton text="Update" onClick={this.onUpdateClick.bind(this)}/></Stack.Item>
+            </Stack>
+            <p style={{marginTop:10}}>
+            <MessageBar
+                    messageBarType={MessageBarType[this.state.Utype]}
+                    isMultiline={true}
+                    dismissButtonAriaLabel="Close"
+                    >
+                    {this.state.Umessage}
+                    <Link href="#/search">
+                    Show all the books.
+                    </Link>
+            </MessageBar>
+            </p>
+          </div>
       </div>
     )
+  }
+  async onUpdateChange(ev, tx) {
+    await ev
+    let nb = this.state.newbook;
+    nb[ev.target.labels[0].outerText] = tx
+    this.setState({
+      newbook: nb
+    })
+    if (ev.target.labels[0].outerText === 'bno') {
+      this.updateU(tx)
+    }
+  }
+
+  async updateU(tx) {
+    
+      const raw = await fetch(url + '/api/update', {
+        method: "POST",
+        headers: {
+          'Content-Type':'application/json'
+        },
+        body: JSON.stringify({bno: tx})
+      })
+      const res = await raw.json()
+      console.log(res)
+      this.setState({
+        Umessage: (!res.err)?"Valid Bno " + JSON.stringify(res):"Waiting Input",
+        Utype: (!res.err)?"success":""
+      })
+  }
+  
+  async onUpdateClick() {
+    this.setState({
+      msg:(!this.state.newbook.bno)?"required":""
+    })
+    if (!this.state.newbook.bno) return;
+    console.log(this.state.newbook)
+    const raw = await fetch(url + '/api/update', {
+      method: "POST",
+      headers: {
+        'Content-Type':'application/json'
+      },
+      body: JSON.stringify(this.state.newbook)
+    })
+    const res = await raw.json()
+    if (!res.err) {
+      this.setState({
+        Umessage:"Update done",
+        Utype: 'success'
+      })
+    } else {
+      alert(res.err)
+    }
   } 
 }
 
